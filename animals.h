@@ -9,61 +9,71 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
 using namespace std;
+
+const int SIZE {200};
 
 class Animal
 {
 	public:
-		Animal();					//default constructor
-		Animal(char * species);				//initialization list
-		Animal(const Animal & to_copy);			//copy constructor
-		Animal & operator=(const Animal & src);		//assignment operator
-		~Animal();					//destructor
-		int compare(char * to_compare);			//compare species and return if the same
-		int display() const;				//display the species
-		int insert(char * to_add);			//add the species from the user
+		Animal();								//default constructor
+		Animal(char * your_species, const int & an_age);			//initialization list
+		Animal(const Animal & to_copy);						//copy constructor
+		Animal & operator=(const Animal & src);					//assignment operator
+		~Animal();								//destructor
+		int display() const;							//display the species
+		int insert(char * add_species, const int & an_age);		//add the species from the user
+		friend istream & operator >> (istream & in, Animal & an2);		//input the species and the age
+		friend ostream & operator << (ostream & out, const Animal & an2);	//display the species and age
+
 
 	private:
+		int age;
 		char * species;
 };
 
 class Pet: public Animal
 {
 	public:
-		Pet();						//default constructor
-		Pet(char * your_species, int & your_age);	//initialization list
-		~Pet();						//destructor
-		int display() const;				//display age
-		int insert(int & add_age);			//insert the age
+		Pet();												//default constructor
+		Pet(char * your_species, const int & an_age, const string & a_breed, const string & a_temp);	//initialization list
+		~Pet();												//destructor
+		friend istream & operator >> (istream & in, Pet & an2);		//input the species and the age
+		friend ostream & operator << (ostream & out, const Pet & an2);	//display the species and age
 
 	private:
-		int age;
+		string temper;
+		string breed;
 };
 
 class Work: public Animal
 {
 	public:
-		Work();						//default constructor
-		Work(char * your_species, char * your_work);	//initialization list
-		Work(const Work & to_copy);			//copy constructor
-		Work & operator=(const Work & src);		//assignment operator
-		~Work();					//destructor
-		int display() const;				//display the type of work
-		int insert(char * add_job);			//insert the job
+		Work();											//default constructor
+		Work(char * your_species, const int & an_age, int & a_period, char * a_job);	//initialization list
+		Work(const Work & to_copy);								//copy constructor
+		Work & operator=(const Work & src);							//assignment operator
+		~Work();										//destructor
 
 	private:
+		int period;
 		char * job;
 };
 
 class Competition: public Animal
 {
 	public:
-		Competition();							//default constructor
-		Competition(char * your_species, const string & a_comp);	//initialization list
-		~Competition();							//destructor
-		int display() const;						//display the competition
-		int insert(const string & add_comp);				//insert a comp the animal participated in
+		Competition();												//default constructor
+		Competition(char * your_species, const int & an_age, const string & a_comp, int & an_award);	//initialization list
+		~Competition();												//destructor
 	
 	private:
 		string comp;
+		int awards;
 };
+
+
+//prototypes
+int menu();
+int animal_menu();
