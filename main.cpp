@@ -30,20 +30,30 @@ int main()
 	do
 	{
 		option = menu();
-		if (option == 1)
+		switch(option)
 		{
-			cin >> an_animal;
-			cout << an_animal;
-		}
-		else if (option == 2)
-		{
-		}
-		else if (option == 3)
-		{
+			//if (option == 1)
+			case 1:
+			{
+				cin >> an_animal;
+				cout << an_animal;
+			}
+			//else if (option == 2)
+			case 2:
+			{
+			}
+			//else if (option == 3)
+			case 3:
+			{
+			}
+/*			default:
+			{
+				cout << "\nInvalid choice, try again";
+				break;
+			}*/
 		}
 	} while (option != 4);
-
-	cout << endl;
+	cout << "\n***EXITING***" << endl;
 
 	return 0;
 }

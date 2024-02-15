@@ -55,8 +55,6 @@ Animal::~Animal()
 	age = 0;
 }
 
-//compare species and return if the same
-
 //display the species
 int Animal::display() const
 {
@@ -87,19 +85,35 @@ istream & operator >> (istream & in, Animal & an2)
 		delete [] an2.species;
 	char temp[SIZE];
 	int add_age = 0;
-	cout << "\nWhat is the species: ";
-	try
+	do
 	{
-		cin.get(temp, SIZE, '\n');
-		cin.ignore(100, '\n');
-		if (temp[0] == '\0')
-			throw temp;
-	}
-	catch (char 
+		cout << "\nWhat is the species: ";
+		try
+		{
+			cin.get(temp, SIZE, '\n');
+			cin.clear();
+			cin.ignore(100, '\n');
+			if (strlen(temp) == 0)
+				throw temp;
+		}
+		catch (const char * msg)
+		{
+			cerr << "\nNothing entered, try again" << endl;
+		}
+	} while (strlen(temp) == 0);
 	an2.species = new char[strlen(temp) + 1];
 	strcpy(an2.species, temp);
 	cout << "\nWhat is the age: ";
 	cin >> add_age;
+	while (cin.fail())
+	{
+		cerr << "\nEntered a character, enter an integer" << endl;
+		cin.clear();
+		cin.ignore(100, '\n');
+		cout << "\nWhat is the age: ";
+		cin >> add_age;
+	}
+	cin.clear();
 	cin.ignore(100, '\n');
 	an2.age = add_age;
 	return in;
