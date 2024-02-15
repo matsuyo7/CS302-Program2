@@ -14,6 +14,7 @@ int main()
 {
 	//Variables
 	Animal an_animal;
+	Pet a_pet;
 	int option {0};
 	/*
 	char a_species[SIZE];
@@ -27,22 +28,28 @@ int main()
 	cin.ignore(100, '\n');
 //	an_animal.insert(a_species, some_age);
 //	an_animal.display();*/
+	//loop through the menu until the user wants to stop
 	do
 	{
 		option = menu();
 		switch(option)
 		{
 			//if (option == 1)
+			//if the user chooses to pet
 			case 1:
 			{
-				cin >> an_animal;
-				cout << an_animal;
+//				cin >> an_animal;
+//				cout << an_animal;
+				cin >> a_pet;
+				cout << a_pet;
 			}
 			//else if (option == 2)
+			//if the user chooses working animal
 			case 2:
 			{
 			}
 			//else if (option == 3)
+			//if the user chooses a competing animal
 			case 3:
 			{
 			}

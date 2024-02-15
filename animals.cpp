@@ -10,13 +10,13 @@
 
 #include "animals.h"
 //ANIMALS
-//default constructor
+//default constructor sets data members to their nullptr/0
 Animal::Animal(): species(nullptr)
 {
 	age = 0;
 }
 
-//initialization list
+//initialization list to set data members to what is coming in
 Animal::Animal(char * your_species, const int & an_age)
 {
 	species = new char[strlen(your_species) + 1];
@@ -24,7 +24,7 @@ Animal::Animal(char * your_species, const int & an_age)
 	age = 0;
 }
 
-//copy constructor
+//copy constructor to copy the class object data members
 Animal::Animal(const Animal & to_copy)
 {
 	species = new char[strlen(to_copy.species) + 1];
@@ -32,7 +32,7 @@ Animal::Animal(const Animal & to_copy)
 	age = to_copy.age;
 }
 
-//assignment operator
+//assignment operator to assign the members properlly
 Animal & Animal::operator=(const Animal & src)
 {
 	if (this == &src)
@@ -46,7 +46,7 @@ Animal & Animal::operator=(const Animal & src)
 	return *this;
 }
 
-//destructor
+//destructor to deallocate memory
 Animal::~Animal()
 {
 	if (species)
@@ -55,7 +55,7 @@ Animal::~Animal()
 	age = 0;
 }
 
-//display the species
+//display the species and age
 int Animal::display() const
 {
 	if (!species || age < 0)
@@ -65,7 +65,7 @@ int Animal::display() const
 	return 1;
 }
 
-//add the species from the user
+//add the species and age from the user
 int Animal::insert(char * add_species, const int & an_age)
 {
 	if (!add_species || an_age < 0)
@@ -134,7 +134,7 @@ Pet::Pet()
 }
 
 //initialization list
-Pet::Pet(char * your_species, const int & an_age, const string & a_breed, const string & a_temp): Animal(your_species, an_age)
+Pet::Pet(char * your_species, const int & an_age, const string & a_breed, const string & a_temp): Animal(your_species, an_age), breed(a_breed), temper(a_temp)
 {
 }
 
@@ -146,9 +146,64 @@ Pet::~Pet()
 //input the species and the age
 istream & operator >> (istream & in, Pet & an2)
 {
+//	Animal::operator >> (an2);
+	//kickstarts Animal's insertion
+	in >> static_cast<Animal &>(an2);
+	string add_breed;
+	string add_temper;
+	cout << "\nWhat's the breed: ";
+	getline(cin, add_breed);
+	an2.breed = add_breed;
+	cout << "\nAnimal's temperment: ";
+	getline(cin, add_temper);
+	an2.temper = add_temper;
+	return in;
 }
 
 //display the species and age
 ostream & operator << (ostream & out, const Pet & an2)
+{
+//	Animal::operator<<(an2);
+	//kickstarts Animal's output operator
+	out << static_cast<const Animal &>(an2);
+	out << "\nBreed: " << an2.breed
+	<< "\nTemperment: " << an2.temper;
+	return out;
+}
+
+
+//WORKING ANIMAL
+//default constructor
+Work::Work()
+{
+}
+
+//initialization list
+Work::Work(char * your_species, const int & an_age, int & a_period, char * a_job)
+{
+}
+
+//copy constructor
+Work::Work(const Work & to_copy)
+{
+}
+
+//assignment operator
+Work & Work::operator=(const Work & src)
+{
+}
+
+//destructor
+Work::~Work()
+{
+}
+
+//input the species and the age
+istream & operator >> (istream & in, Work & an2)
+{
+}
+
+//display the species and age
+ostream & operator << (ostream & out, const Work & an2)
 {
 }

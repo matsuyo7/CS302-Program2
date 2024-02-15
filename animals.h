@@ -23,7 +23,7 @@ class Animal
 		Animal & operator=(const Animal & src);					//assignment operator
 		~Animal();								//destructor
 		int display() const;							//display the species
-		int insert(char * add_species, const int & an_age);		//add the species from the user
+		int insert(char * add_species, const int & an_age);			//add the species from the user
 		friend istream & operator >> (istream & in, Animal & an2);		//input the species and the age
 		friend ostream & operator << (ostream & out, const Animal & an2);	//display the species and age
 
@@ -43,8 +43,8 @@ class Pet: public Animal
 		friend ostream & operator << (ostream & out, const Pet & an2);	//display the species and age
 
 	private:
-		string temper;
 		string breed;
+		string temper;
 };
 
 class Work: public Animal
@@ -55,6 +55,8 @@ class Work: public Animal
 		Work(const Work & to_copy);								//copy constructor
 		Work & operator=(const Work & src);							//assignment operator
 		~Work();										//destructor
+		friend istream & operator >> (istream & in, Work & an2);		//input the species and the age
+		friend ostream & operator << (ostream & out, const Work & an2);	//display the species and age
 
 	private:
 		int period;
@@ -67,6 +69,8 @@ class Competition: public Animal
 		Competition();												//default constructor
 		Competition(char * your_species, const int & an_age, const string & a_comp, int & an_award);	//initialization list
 		~Competition();												//destructor
+		friend istream & operator >> (istream & in, Competition & an2);		//input the species and the age
+		friend ostream & operator << (ostream & out, const Competition & an2);	//display the species and age
 	
 	private:
 		string comp;
