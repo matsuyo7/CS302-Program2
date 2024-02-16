@@ -26,6 +26,7 @@ class Animal
 		int insert(char * add_species, const int & an_age);			//add the species from the user
 		friend istream & operator >> (istream & in, Animal & an2);		//input the species and the age
 		friend ostream & operator << (ostream & out, const Animal & an2);	//display the species and age
+		bool operator == (const Animal & an2) const;				//find a matching age and species, return true if found and display it
 
 
 	private:
@@ -79,5 +80,5 @@ class Competition: public Animal
 
 
 //prototypes
-int menu();
-int animal_menu();
+char menu();
+char animal_menu();

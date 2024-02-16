@@ -54,7 +54,7 @@ Animal::~Animal()
 	species = nullptr;
 	age = 0;
 }
-
+/*
 //display the species and age
 int Animal::display() const
 {
@@ -77,7 +77,7 @@ int Animal::insert(char * add_species, const int & an_age)
 	age = an_age;
 	return 1;
 }
-
+*/
 //input the species and the age
 istream & operator >> (istream & in, Animal & an2)
 {
@@ -98,7 +98,7 @@ istream & operator >> (istream & in, Animal & an2)
 		}
 		catch (const char * msg)
 		{
-			cerr << "\nNothing entered, try again" << endl;
+			cerr << "Nothing entered, try again" << endl;
 		}
 	} while (strlen(temp) == 0);
 	an2.species = new char[strlen(temp) + 1];
@@ -107,7 +107,7 @@ istream & operator >> (istream & in, Animal & an2)
 	cin >> add_age;
 	while (cin.fail())
 	{
-		cerr << "\nEntered a character, enter an integer" << endl;
+		cerr << "Entered a character, enter an integer" << endl;
 		cin.clear();
 		cin.ignore(100, '\n');
 		cout << "\nWhat is the age: ";
@@ -125,6 +125,14 @@ ostream & operator << (ostream & out, const Animal & an2)
 	out << "\nAnimal: " << an2.species
 	<< "\nAge: " << an2.age;
 	return out;
+}
+
+//find a matching age and species, return true if found and display it
+bool Animal::operator == (const Animal & an2) const
+{
+	if (strcmp(species, an2.species) == 0 && age == an2.age)
+		return true;
+	return false;
 }
 
 //PETS
@@ -151,11 +159,25 @@ istream & operator >> (istream & in, Pet & an2)
 	in >> static_cast<Animal &>(an2);
 	string add_breed;
 	string add_temper;
-	cout << "\nWhat's the breed: ";
-	getline(cin, add_breed);
+	//loop until the user enters something
+	do
+	{
+		cout << "\nWhat's the breed: ";
+		getline(cin, add_breed);
+		//check if the user entered anything
+		if (add_breed.empty())
+			cout << "Entered nothing, try again" << endl;
+	} while (add_breed.empty());
 	an2.breed = add_breed;
-	cout << "\nAnimal's temperment: ";
-	getline(cin, add_temper);
+	//loop until the user enters something
+	do
+	{
+		cout << "\nAnimal's temperment: ";
+		getline(cin, add_temper);
+		//check if the user enters anything
+		if (add_temper.empty())
+			cout << "Entered nothing, try again" << endl;
+	} while (add_temper.empty());
 	an2.temper = add_temper;
 	return in;
 }
@@ -174,36 +196,166 @@ ostream & operator << (ostream & out, const Pet & an2)
 
 //WORKING ANIMAL
 //default constructor
-Work::Work()
+Work::Work(): job(nullptr)
 {
+	period = 0;
 }
 
 //initialization list
-Work::Work(char * your_species, const int & an_age, int & a_period, char * a_job)
+Work::Work(char * your_species, const int & an_age, int & a_period, char * a_job): Animal(your_species, an_age)
 {
+	job = new char[strlen(a_job) + 1];
+	strcpy(job, a_job);
+	period = 0;
 }
 
 //copy constructor
-Work::Work(const Work & to_copy)
+Work::Work(const Work & to_copy): Animal(to_copy)
 {
+	job = new char[strlen(to_copy.job) + 1];
+	strcpy(job, to_copy.job);
+	period = to_copy.period;
 }
 
 //assignment operator
 Work & Work::operator=(const Work & src)
 {
+	if (this == &src)
+	{
+		if (job)
+			delete [] job;
+		job = new char[strlen(src.job) + 1];
+		strcpy(job, src.job);
+		period = src.period;
+	}
+	return *this;
 }
 
 //destructor
 Work::~Work()
 {
+	if (job)
+		delete [] job;
+	job = nullptr;
+	period = 0;
 }
 
 //input the species and the age
 istream & operator >> (istream & in, Work & an2)
 {
+	//kickstarts the Animal's insert
+	in >> static_cast<Animal &>(an2);
+	if (an2.job)
+		delete [] an2.job;
+	char temp[SIZE];
+	int add_period = 0;
+	do
+	{
+		cout << "\nWhat's the animal's job: ";
+		try
+		{
+			cin.get(temp, SIZE, '\n');
+			cin.clear();
+			cin.ignore(100, '\n');
+			//check if the user entered anything
+			if (strlen(temp) == 0)
+				throw temp;
+		}
+		//only caught if the user entered nothing
+		catch (const char * msg)
+		{
+			cerr << "Nothing entered, try again" << endl;
+		}
+	} while (strlen(temp) == 0);
+	an2.job = new char[strlen(temp) + 1];
+	strcpy(an2.job, temp);
+	cout << "\nYears of experience: ";
+	cin >> add_period;
+	//loop through until the user enters an integer and not a char
+	while (cin.fail())
+	{
+		cerr << "Entered a character, enter an integer" << endl;
+		cin.clear();
+		cin.ignore(100, '\n');
+		cout << "\nYears of experience: ";
+		cin >> add_period;
+	}
+	cin.clear();
+	cin.ignore(100, '\n');
+	an2.period = add_period;
+	return in;
 }
 
 //display the species and age
 ostream & operator << (ostream & out, const Work & an2)
 {
+	//kickstarts Animal's output operator
+	out << static_cast<const Animal &>(an2);
+	out << "\nJob: " << an2.job
+	<< "\nExperience (years): " << an2.period;
+	return out;
+}
+
+
+//COMPETING ANIMAL
+//default constructor
+Competition::Competition()
+{
+	awards = 0;
+}
+
+//initialization list to initialize competiton and awards while sending species and age up to animal
+Competition::Competition(char * your_species, const int & an_age, const string & a_comp, int & an_award): Animal(your_species, an_age), comp(a_comp)
+{
+	awards = 0;
+}
+
+//destructor to deallocate memory
+Competition::~Competition()
+{
+	awards = 0;
+}
+
+//input the type of competition and number of awards
+istream & operator >> (istream & in, Competition & an2)
+{
+	//kickstarts Animal's insertion
+	in >> static_cast<Animal &>(an2);
+	string add_comp;
+	int add_awards = 0;
+	//loop until the user enters something
+	do
+	{
+		cout << "\nWhat competition: ";
+		getline(cin, add_comp);
+		//check if the user entered anything
+		if (add_comp.empty())
+			cout << "Entered nothing, try again" << endl;
+	} while (add_comp.empty());
+	an2.comp = add_comp;
+	cout << "\nNumber of awards: ";
+	cin >> add_awards;
+	//loop through until the user enters an integer and not a char
+	while (cin.fail())
+	{
+		cerr << "Entered a character, enter an integer" << endl;
+		cin.clear();
+		cin.ignore(100, '\n');
+		cout << "\nNumber of awards: ";
+		cin >> add_awards;
+	}
+	cin.clear();
+	cin.ignore(100, '\n');
+	an2.awards = add_awards;
+	return in;
+}
+
+//display the competition and awards
+ostream & operator << (ostream & out, const Competition & an2)
+{
+	//kickstarts Animal's output operator
+	out << static_cast<const Animal &>(an2);
+	out << "\nCompetition: " << an2.comp
+	<< "\nAwards won: " << an2.awards;
+	return out;
 }

@@ -15,7 +15,9 @@ int main()
 	//Variables
 	Animal an_animal;
 	Pet a_pet;
-	int option {0};
+	Work working_an;
+	Competition comp_an;
+	char option {' '};
 	/*
 	char a_species[SIZE];
 	int some_age {0};
@@ -36,72 +38,84 @@ int main()
 		{
 			//if (option == 1)
 			//if the user chooses to pet
-			case 1:
+			case '1':
 			{
 //				cin >> an_animal;
 //				cout << an_animal;
 				cin >> a_pet;
 				cout << a_pet;
+				break;
 			}
 			//else if (option == 2)
 			//if the user chooses working animal
-			case 2:
+			case '2':
 			{
+				cin >> working_an;
+				cout << working_an;
+				break;
 			}
 			//else if (option == 3)
 			//if the user chooses a competing animal
-			case 3:
+			case '3':
 			{
+				cin >> comp_an;
+				cout << comp_an;
+				break;
 			}
-/*			default:
+			case '4':
+			{
+				cout << "\n***EXITING***" << endl;
+				break;
+			}
+			default:
 			{
 				cout << "\nInvalid choice, try again";
 				break;
-			}*/
+			}
 		}
-	} while (option != 4);
-	cout << "\n***EXITING***" << endl;
+	} while (option != '4');
 
 	return 0;
 }
 
 
-int menu()
+char menu()
 {
-	int option = 0;
+	char option = 0;
 	cout << "\n*****ANIMAL STORAGE****"
 	"\nWhat type of animal:"
 	"\n\t1. Pet"
 	"\n\t2. Worker"
 	"\n\t3. Competition"
 	"\n\t4. Exit";
-	do
-	{
+//	do
+//	{
 		cout << "\nPick an option: ";
 		cin >> option;
+		cin.clear();
 		cin.ignore(100, '\n');
-		if (option < 1 || option > 4)
-			cout << "Try again";
-	} while (option < 1 || option > 4);
+//		if (option < 1 || option > 4)
+//			cout << "Try again";
+//	} while (option < 1 || option > 4);
 	return option;
 }
 
-int animal_menu()
+char animal_menu()
 {
-	int option {0};
+	char option {0};
 	cout << "\n***MENU***"
 	"\n\t1. Insert"
 	"\n\t2. Find"
 	"\n\t3. Remove one"
 	"\n\t4. Remove all"
 	"\n\t5. Exit";
-	do
-	{
+//	do
+//	{
 		cout << "\nPick an option: ";
 		cin >> option;
 		cin.ignore(100, '\n');
-		if (option < 1 || option > 5)
-			cout << "Try again";
-	} while (option < 1 || option > 5);
+//		if (option < 1 || option > 5)
+//			cout << "Try again";
+//	} while (option < 1 || option > 5);
 	return option;
 }
