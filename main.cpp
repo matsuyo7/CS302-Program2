@@ -8,16 +8,18 @@
 //from the user. Pets will have data on the age, species. Work will have the type of work the animal
 //does, and competition will have the type of competiton and amount of years trained.
 
-#include "animals.h"
+#include "DLL.h"
 
 int main()
 {
 	//Variables
-	Animal an_animal;
+	Animal an_animal, animal_two;
 	Pet a_pet;
 	Work working_an;
 	Competition comp_an;
+//	node<Pet> * one_pet;
 	char option {' '};
+	char inner_option {' '};
 	/*
 	char a_species[SIZE];
 	int some_age {0};
@@ -40,10 +42,54 @@ int main()
 			//if the user chooses to pet
 			case '1':
 			{
-//				cin >> an_animal;
-//				cout << an_animal;
-				cin >> a_pet;
-				cout << a_pet;
+				do
+				{
+					inner_option = animal_menu();
+					switch(inner_option)
+					{
+						case '1':
+						{
+							//				cin >> an_animal;
+							//				cout << an_animal;
+							cin >> a_pet;
+							//one_pet = new node(a_pet);
+						//	one_pet->display();
+							//cout << a_pet;
+							break;
+						}
+						case '2':
+						{
+						/*	cin >> animal_two;
+							cin >> an_animal;
+							if (an_animal == animal_two)
+							{
+								cout << "\nThey are the same";
+								cout << an_animal;
+							}
+							else
+								cout << "\nNot the same";
+								*/
+							break;
+						}
+						case '3':
+						{
+							break;
+						}
+						case '4':
+						{
+							break;
+						}
+						case '5':
+						{
+							break;
+						}
+						default:
+						{
+							cout << "\nInvalid choice, try again";
+							break;
+						}
+					}
+				} while (inner_option != '5');
 				break;
 			}
 			//else if (option == 2)
@@ -105,7 +151,7 @@ char animal_menu()
 	char option {0};
 	cout << "\n***MENU***"
 	"\n\t1. Insert"
-	"\n\t2. Find"
+	"\n\t2. Display all"
 	"\n\t3. Remove one"
 	"\n\t4. Remove all"
 	"\n\t5. Exit";

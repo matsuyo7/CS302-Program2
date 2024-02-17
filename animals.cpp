@@ -8,7 +8,7 @@
 //respected classes. When one data needs to be stored in a clas above,
 //the current class will push up the data to its parent class.
 
-#include "animals.h"
+#include "DLL.h"
 //ANIMALS
 //default constructor sets data members to their nullptr/0
 Animal::Animal(): species(nullptr)
@@ -127,12 +127,21 @@ ostream & operator << (ostream & out, const Animal & an2)
 	return out;
 }
 
-//find a matching age and species, return true if found and display it
+//find a matching age and species, return true if found
 bool Animal::operator == (const Animal & an2) const
 {
 	if (strcmp(species, an2.species) == 0 && age == an2.age)
 		return true;
 	return false;
+}
+
+//compare the two ages, if it's greater than current age, return true
+bool Animal::operator <= (const Animal & an2) const
+{
+	if (age <= an2.age)
+		return false;
+	else
+		return true;
 }
 
 //PETS
@@ -178,6 +187,7 @@ istream & operator >> (istream & in, Pet & an2)
 		if (add_temper.empty())
 			cout << "Entered nothing, try again" << endl;
 	} while (add_temper.empty());
+//	temper.pushback(add_temper);
 	an2.temper = add_temper;
 	return in;
 }
@@ -193,6 +203,13 @@ ostream & operator << (ostream & out, const Pet & an2)
 	return out;
 }
 
+//find a matching breed and temper return true if found
+bool Pet::operator == (const Pet & an2) const
+{
+	if (breed == an2.breed && temper == an2.temper)
+		return true;
+	return false;
+}
 
 //WORKING ANIMAL
 //default constructor
@@ -296,6 +313,13 @@ ostream & operator << (ostream & out, const Work & an2)
 	return out;
 }
 
+//find a matching years worked and job title, return true if found
+bool Work::operator == (const Work & an2) const
+{
+	if (strcmp(job, an2.job) == 0 && period == an2.period)
+		return true;
+	return false;
+}
 
 //COMPETING ANIMAL
 //default constructor
@@ -358,4 +382,12 @@ ostream & operator << (ostream & out, const Competition & an2)
 	out << "\nCompetition: " << an2.comp
 	<< "\nAwards won: " << an2.awards;
 	return out;
+}
+
+//find a matching comp and awards, return true if found
+bool Competition::operator == (const Competition & an2) const
+{
+	if (comp == an2.comp && awards == an2.awards)
+		return true;
+	return false;
 }

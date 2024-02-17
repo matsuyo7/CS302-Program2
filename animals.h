@@ -9,10 +9,14 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include <cstring>
 using namespace std;
 
 const int SIZE {200};
+
+//personality types
+//inline vector<string> personality_types = {"Outgoing", "Aggresive", "Confident", "Adaptable", "Insecure", "Independent"};
 
 class Animal
 {
@@ -26,7 +30,8 @@ class Animal
 		int insert(char * add_species, const int & an_age);			//add the species from the user
 		friend istream & operator >> (istream & in, Animal & an2);		//input the species and the age
 		friend ostream & operator << (ostream & out, const Animal & an2);	//display the species and age
-		bool operator == (const Animal & an2) const;				//find a matching age and species, return true if found and display it
+		bool operator == (const Animal & an2) const;				//find a matching age and species, return true if found
+		bool operator <= (const Animal & an2) const;				//compare the two ages, if it's greater than current age, return true
 
 
 	private:
@@ -40,11 +45,13 @@ class Pet: public Animal
 		Pet();												//default constructor
 		Pet(char * your_species, const int & an_age, const string & a_breed, const string & a_temp);	//initialization list
 		~Pet();												//destructor
-		friend istream & operator >> (istream & in, Pet & an2);		//input the species and the age
-		friend ostream & operator << (ostream & out, const Pet & an2);	//display the species and age
+		friend istream & operator >> (istream & in, Pet & an2);		//input the breed and temper
+		friend ostream & operator << (ostream & out, const Pet & an2);	//display the breed and temper
+		bool operator == (const Pet & an2) const;				//find a matching breed and temper, return true if found
 
 	private:
 		string breed;
+//		vector<string> temper;
 		string temper;
 };
 
@@ -56,8 +63,9 @@ class Work: public Animal
 		Work(const Work & to_copy);								//copy constructor
 		Work & operator=(const Work & src);							//assignment operator
 		~Work();										//destructor
-		friend istream & operator >> (istream & in, Work & an2);		//input the species and the age
-		friend ostream & operator << (ostream & out, const Work & an2);	//display the species and age
+		friend istream & operator >> (istream & in, Work & an2);		//input the years worked and job title
+		friend ostream & operator << (ostream & out, const Work & an2);	//display the years worked and job title
+		bool operator == (const Work & an2) const;				//find a matching years worked and job title, return true if found
 
 	private:
 		int period;
@@ -70,8 +78,9 @@ class Competition: public Animal
 		Competition();												//default constructor
 		Competition(char * your_species, const int & an_age, const string & a_comp, int & an_award);	//initialization list
 		~Competition();												//destructor
-		friend istream & operator >> (istream & in, Competition & an2);		//input the species and the age
-		friend ostream & operator << (ostream & out, const Competition & an2);	//display the species and age
+		friend istream & operator >> (istream & in, Competition & an2);		//input the comp and awards
+		friend ostream & operator << (ostream & out, const Competition & an2);	//display the comp and awards
+		bool operator == (const Competition & an2) const;				//find a matching comp and awards, return true if found
 	
 	private:
 		string comp;
