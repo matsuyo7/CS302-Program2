@@ -8,7 +8,7 @@
 //respected classes. When one data needs to be stored in a clas above,
 //the current class will push up the data to its parent class.
 
-#include "DLL.h"
+#include "animals.h"
 //ANIMALS
 //default constructor sets data members to their nullptr/0
 Animal::Animal(): species(nullptr)
@@ -54,30 +54,7 @@ Animal::~Animal()
 	species = nullptr;
 	age = 0;
 }
-/*
-//display the species and age
-int Animal::display() const
-{
-	if (!species || age < 0)
-		return 0;
-	cout << "\nSpecies: " << species
-	<< "\nAge: " << age;
-	return 1;
-}
 
-//add the species and age from the user
-int Animal::insert(char * add_species, const int & an_age)
-{
-	if (!add_species || an_age < 0)
-		return 0;
-	if (species)
-		delete [] species;
-	species = new char[strlen(add_species) + 1];
-	strcpy(species, add_species);
-	age = an_age;
-	return 1;
-}
-*/
 //input the species and the age
 istream & operator >> (istream & in, Animal & an2)
 {
@@ -139,9 +116,18 @@ bool Animal::operator == (const Animal & an2) const
 bool Animal::operator <= (const Animal & an2) const
 {
 	if (age <= an2.age)
-		return false;
-	else
 		return true;
+	else
+		return false;
+}
+
+//compare the two ages, if current age is greater, return true
+bool Animal::operator > (const Animal & an2) const
+{
+	if (age > an2.age)
+		return true;
+	else
+		return false;
 }
 
 //PETS

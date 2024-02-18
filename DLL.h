@@ -8,6 +8,8 @@
 //information from all the classes and will be a template class so that
 //its type is not defined, making it usable for all animal types
 
+#ifndef DLL_H
+#define DLL_H
 #include "animals.h"
 
 template <typename T>
@@ -20,10 +22,12 @@ class node
 		node(const T & new_animal);			//initialization list
 		node(const node<T> & src);			//copy constructor
 		~node();					//destructor
+		T get_data() const;				//get the data to compare
 		node_ptr_type & set_prev(node<T> * new_prev);	//set the previous pointer
 		node_ptr_type & set_next(node<T> * new_next);			//set the next pointer
 		node_ptr_type & get_prev();			//get the previous pointer
 		node_ptr_type & get_next();			//get the next pointer
+		bool less_than_or_equal(const T & new_data);	//compare if the current data is less than new data
 		int display() const;				//display whats stored in the node
 
 	private:
@@ -51,9 +55,13 @@ class DLL
 	private:
 		node_ptr_type head;
 		node_ptr_type tail;
-		int copy(node_ptr_type & dest, const node_ptr_type & src);
-		int insert(node_ptr_type & head, const T & data);
+		int copy(node_ptr_type & head, node_ptr_type & tail, const node_ptr_type & src);
+		int insert(node_ptr_type & head, const T & to_add);
 		int display(const node_ptr_type & head) const;
 		int remove(node_ptr_type & head);
 		int remove_all(node_ptr_type & head);
 };
+
+
+#include "DLL.tpp"
+#endif

@@ -17,7 +17,7 @@ int main()
 	Pet a_pet;
 	Work working_an;
 	Competition comp_an;
-//	node<Pet> * one_pet;
+	DLL<Pet> pet_list;
 	char option {' '};
 	char inner_option {' '};
 	/*
@@ -47,11 +47,13 @@ int main()
 					inner_option = animal_menu();
 					switch(inner_option)
 					{
+						//user chooses to add a pet into the list
 						case '1':
 						{
 							//				cin >> an_animal;
 							//				cout << an_animal;
 							cin >> a_pet;
+							pet_list.insert(a_pet);
 							//one_pet = new node(a_pet);
 						//	one_pet->display();
 							//cout << a_pet;
@@ -59,6 +61,8 @@ int main()
 						}
 						case '2':
 						{
+							pet_list.display();
+							cout << endl;
 						/*	cin >> animal_two;
 							cin >> an_animal;
 							if (an_animal == animal_two)
@@ -151,7 +155,7 @@ char animal_menu()
 	char option {0};
 	cout << "\n***MENU***"
 	"\n\t1. Insert"
-	"\n\t2. Display all"
+	"\n\t2. Display all by age"
 	"\n\t3. Remove one"
 	"\n\t4. Remove all"
 	"\n\t5. Exit";

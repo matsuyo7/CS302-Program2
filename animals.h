@@ -7,6 +7,7 @@
 //, in a competition, or used for jobs. This file will have the skeleton for the program, implementing classes,
 //nodes, and list so that the other files can implement these files.
 
+#pragma once
 #include <iostream>
 #include <string>
 #include <vector>
@@ -32,6 +33,7 @@ class Animal
 		friend ostream & operator << (ostream & out, const Animal & an2);	//display the species and age
 		bool operator == (const Animal & an2) const;				//find a matching age and species, return true if found
 		bool operator <= (const Animal & an2) const;				//compare the two ages, if it's greater than current age, return true
+		bool operator > (const Animal & an2) const;				//compare the two ages, if current age is greater, return true
 
 
 	private:
