@@ -197,6 +197,12 @@ bool Pet::operator == (const Pet & an2) const
 	return false;
 }
 
+//append a string
+string Pet::operator += (const Pet & an2)
+{
+	return temper += an2.temper + breed += an2.breed;
+}
+
 //WORKING ANIMAL
 //default constructor
 Work::Work(): job(nullptr)

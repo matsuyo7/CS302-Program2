@@ -71,11 +71,23 @@ typename node<T>::node_ptr_type & node<T>::get_next()
 	return next;
 }
 
+/*
 //compare if the current data is less than new data
 template <typename T>
 bool node<T>::less_than_or_equal(const T & new_data)
 {
 	return data <= new_data;
+}
+*/
+
+//return true if the data is the same
+template <typename T>
+bool node<T>::find(const T & to_find)
+{
+	if (data == to_find)
+		return true;
+	else
+		return false;
 }
 
 //display whats stored in the node
@@ -105,7 +117,7 @@ DLL<T>::DLL(const DLL<T> & src)
 		tail = nullptr;
 		return;
 	}
-	copy(head, src.head);
+	copy(head, tail, src.head);
 }
 template <typename T>
 int DLL<T>::copy(node_ptr_type & head, node_ptr_type & tail, const node_ptr_type & src)
@@ -171,6 +183,7 @@ int DLL<T>::insert(const T & new_animal)
 		hold->set_prev(head->get_prev());
 		hold->set_next(head);
 		head->set_prev(hold);
+		head = hold;
 		return 1;
 	}
 	return insert(head, new_animal);
@@ -189,20 +202,24 @@ int DLL<T>::insert(node_ptr_type & head, const T & to_add)
 	}
 	//if current age is less than the new age
 //	if (head->less_than_or_equal(to_add))
-	if (head->get_data() <= to_add && head->get_next()->get_data() > to_add)
+//	if (head->get_data() <= to_add && head->get_next()->get_data() > to_add)
+	if (head->get_data() <= to_add)
 	{
-	//	if (head->get_next()->get_data() > to_add)
-	//	{
-			node_ptr_type hold = new node(to_add);
-			hold->set_next(head->get_next());
-			if (head->get_next())
-				head->get_next()->set_prev(hold);
-			hold->set_prev(head);
-			head->set_next(hold);
-			if (!hold->get_next())
-				this->tail = hold;
-			return 1;
-	//	}
+		if (head->get_next())
+		{
+			if (head->get_next()->get_data() > to_add)
+			{
+				node_ptr_type hold = new node(to_add);
+				hold->set_next(head->get_next());
+				if (head->get_next())
+					head->get_next()->set_prev(hold);
+				hold->set_prev(head);
+				head->set_next(hold);
+				if (!hold->get_next())
+					this->tail = hold;
+				return 1;
+			}
+		}
 	}
 	//keep going until it hits nullptr
 	return insert(head->get_next(), to_add);
@@ -222,17 +239,34 @@ int DLL<T>::display(const node_ptr_type & head) const
 	if (!head)
 		return 0;
 	head->display();
-	return display(head->get_next());
+	return 1 + display(head->get_next());
 }
 
 //find an animal to remove from the list
 template <typename T>
 int DLL<T>::remove(const T & find_animal)
 {
+	if (!head)
+		return 0;
+	return remove(head, find_animal);
 }
 template <typename T>
-int DLL<T>::remove(node_ptr_type & head)
+int DLL<T>::remove(node_ptr_type & head, const T & find_animal)
 {
+	if (!head)
+		return 0;
+	if (head->find(find_animal))
+	{
+		node_ptr_type hold = head->get_next();
+		if (hold)
+			hold->set_prev(head->get_prev());
+		delete head;
+		head = hold;
+		if (!head || !head->get_next())
+			this->tail = head;
+		return 1;
+	}
+	return remove(head->get_next(), find_animal);
 }
 
 //remove the entire list
@@ -255,7 +289,7 @@ int DLL<T>::remove_all(node_ptr_type & head)
 	node_ptr_type hold = head->get_next();
 	delete head;
 	head = hold;
-	return remove_all(head);
+	return 1 + remove_all(head);
 }
 
 #endif

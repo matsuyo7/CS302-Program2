@@ -27,7 +27,8 @@ class node
 		node_ptr_type & set_next(node<T> * new_next);			//set the next pointer
 		node_ptr_type & get_prev();			//get the previous pointer
 		node_ptr_type & get_next();			//get the next pointer
-		bool less_than_or_equal(const T & new_data);	//compare if the current data is less than new data
+//		bool less_than_or_equal(const T & new_data);	//compare if the current data is less than new data
+		bool find(const T & to_find);			//return true if the data is the same
 		int display() const;				//display whats stored in the node
 
 	private:
@@ -58,7 +59,7 @@ class DLL
 		int copy(node_ptr_type & head, node_ptr_type & tail, const node_ptr_type & src);
 		int insert(node_ptr_type & head, const T & to_add);
 		int display(const node_ptr_type & head) const;
-		int remove(node_ptr_type & head);
+		int remove(node_ptr_type & head, const T & find_animal);
 		int remove_all(node_ptr_type & head);
 };
 

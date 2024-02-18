@@ -50,6 +50,7 @@ class Pet: public Animal
 		friend istream & operator >> (istream & in, Pet & an2);		//input the breed and temper
 		friend ostream & operator << (ostream & out, const Pet & an2);	//display the breed and temper
 		bool operator == (const Pet & an2) const;				//find a matching breed and temper, return true if found
+		string operator += (const Pet & an2);				//append a string
 
 	private:
 		string breed;

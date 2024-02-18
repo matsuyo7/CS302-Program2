@@ -13,35 +13,26 @@
 int main()
 {
 	//Variables
-	Animal an_animal, animal_two;
-	Pet a_pet;
-	Work working_an;
-	Competition comp_an;
+	Animal an_animal;
+	Pet a_pet, pet_two;
+	Work working_an, work_two;
+	Competition comp_an, comp_two;
 	DLL<Pet> pet_list;
+	DLL<Work> work_list;
+	DLL<Competition> comp_list;
 	char option {' '};
 	char inner_option {' '};
-	/*
-	char a_species[SIZE];
-	int some_age {0};
 
-	cout << "\nWhat's the species: ";
-	cin.get(a_species, SIZE, '\n');
-	cin.ignore(100, '\n');
-	cout << "\nWhat's their age (year): ";
-	cin >> some_age;
-	cin.ignore(100, '\n');
-//	an_animal.insert(a_species, some_age);
-//	an_animal.display();*/
 	//loop through the menu until the user wants to stop
 	do
 	{
 		option = menu();
 		switch(option)
 		{
-			//if (option == 1)
 			//if the user chooses to pet
 			case '1':
 			{
+				//loop until the user wants to stop
 				do
 				{
 					inner_option = animal_menu();
@@ -50,43 +41,44 @@ int main()
 						//user chooses to add a pet into the list
 						case '1':
 						{
-							//				cin >> an_animal;
-							//				cout << an_animal;
 							cin >> a_pet;
 							pet_list.insert(a_pet);
-							//one_pet = new node(a_pet);
-						//	one_pet->display();
-							//cout << a_pet;
 							break;
 						}
+						//display the entire list
 						case '2':
 						{
-							pet_list.display();
+							if(!pet_list.display())
+								cout << "\nEMPTY" << endl;
 							cout << endl;
-						/*	cin >> animal_two;
-							cin >> an_animal;
-							if (an_animal == animal_two)
-							{
-								cout << "\nThey are the same";
-								cout << an_animal;
-							}
-							else
-								cout << "\nNot the same";
-								*/
 							break;
 						}
+						//find and remove a pet
 						case '3':
 						{
+							cout << "\nEnter info to find.";
+							cin >> pet_two;
+							if (pet_list.remove(pet_two))
+								cout << "\nREMOVED" << endl;
+							else
+								cout << "\nCould not find" << endl;
 							break;
 						}
+						//remove the entire list
 						case '4':
 						{
+							if (pet_list.remove_all())
+								cout << "\nRemoved list" << endl;
+							else
+								cout << "\nCould not remove" << endl;
 							break;
 						}
+						//exit out of the pet menu
 						case '5':
 						{
 							break;
 						}
+						//every other invalid option
 						default:
 						{
 							cout << "\nInvalid choice, try again";
@@ -96,27 +88,131 @@ int main()
 				} while (inner_option != '5');
 				break;
 			}
-			//else if (option == 2)
 			//if the user chooses working animal
 			case '2':
 			{
-				cin >> working_an;
-				cout << working_an;
+				//loop until the user wants to stop
+				do
+				{
+					inner_option = animal_menu();
+					switch(inner_option)
+					{
+						//user chooses to add a working animal into the list
+						case '1':
+						{
+							cin >> working_an;
+							work_list.insert(working_an);
+							break;
+						}
+						//display the entire list
+						case '2':
+						{
+							if(!work_list.display())
+								cout << "\nEMPTY" << endl;
+							cout << endl;
+							break;
+						}
+						//find and remove a working animal
+						case '3':
+						{
+							cout << "\nEnter info to find.";
+							cin >> work_two;
+							if (work_list.remove(work_two))
+								cout << "\nREMOVED" << endl;
+							else
+								cout << "\nCould not find" << endl;
+							break;
+						}
+						//remove the entire list
+						case '4':
+						{
+							if (work_list.remove_all())
+								cout << "\nRemoved list" << endl;
+							else
+								cout << "\nCould not remove" << endl;
+							break;
+						}
+						//exit out of the work menu
+						case '5':
+						{
+							break;
+						}
+						//every other invalid option
+						default:
+						{
+							cout << "\nInvalid choice, try again";
+							break;
+						}
+					}
+				} while (inner_option != '5');
 				break;
 			}
-			//else if (option == 3)
 			//if the user chooses a competing animal
 			case '3':
 			{
-				cin >> comp_an;
-				cout << comp_an;
+				//loop until the user wants to stop
+				do
+				{
+					inner_option = animal_menu();
+					switch(inner_option)
+					{
+						//user chooses to add a competing animal into the list
+						case '1':
+						{
+							cin >> comp_an;
+							comp_list.insert(comp_an);
+							break;
+						}
+						//display the entire list
+						case '2':
+						{
+							if(!comp_list.display())
+								cout << "\nEMPTY" << endl;
+							cout << endl;
+							break;
+						}
+						//find and remove a competing animal
+						case '3':
+						{
+							cout << "\nEnter info to find.";
+							cin >> comp_two;
+							if (comp_list.remove(comp_two))
+								cout << "\nREMOVED" << endl;
+							else
+								cout << "\nCould not find" << endl;
+							break;
+						}
+						//remove the entire list
+						case '4':
+						{
+							if (comp_list.remove_all())
+								cout << "\nRemoved list" << endl;
+							else
+								cout << "\nCould not remove" << endl;
+							break;
+						}
+						//exit out of the competition menu
+						case '5':
+						{
+							break;
+						}
+						//every other invalid option
+						default:
+						{
+							cout << "\nInvalid choice, try again";
+							break;
+						}
+					}
+				} while (inner_option != '5');
 				break;
 			}
+			//the user chooses to exit
 			case '4':
 			{
 				cout << "\n***EXITING***" << endl;
 				break;
 			}
+			//every other invalid choice
 			default:
 			{
 				cout << "\nInvalid choice, try again";
@@ -138,15 +234,10 @@ char menu()
 	"\n\t2. Worker"
 	"\n\t3. Competition"
 	"\n\t4. Exit";
-//	do
-//	{
-		cout << "\nPick an option: ";
-		cin >> option;
-		cin.clear();
-		cin.ignore(100, '\n');
-//		if (option < 1 || option > 4)
-//			cout << "Try again";
-//	} while (option < 1 || option > 4);
+	cout << "\nPick an option: ";
+	cin >> option;
+	cin.clear();
+	cin.ignore(100, '\n');
 	return option;
 }
 
@@ -159,13 +250,8 @@ char animal_menu()
 	"\n\t3. Remove one"
 	"\n\t4. Remove all"
 	"\n\t5. Exit";
-//	do
-//	{
-		cout << "\nPick an option: ";
-		cin >> option;
-		cin.ignore(100, '\n');
-//		if (option < 1 || option > 5)
-//			cout << "Try again";
-//	} while (option < 1 || option > 5);
+	cout << "\nPick an option: ";
+	cin >> option;
+	cin.ignore(100, '\n');
 	return option;
 }
