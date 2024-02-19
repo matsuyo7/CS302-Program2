@@ -360,14 +360,15 @@ istream & operator >> (istream & in, Competition & an2)
 	string add_comp;
 	int add_awards = 0;
 	//loop until the user enters something
-	do
-	{
+//	do
+//	{
 		cout << "\nWhat competition: ";
 		getline(in, add_comp);
 		//check if the user entered anything
 		if (add_comp.empty())
-			cout << "Entered nothing, try again" << endl;
-	} while (add_comp.empty());
+			throw "Cannot be empty";
+//			cout << "Entered nothing, try again" << endl;
+//	} while (add_comp.empty());
 	an2.comp = add_comp;
 	cout << "\nNumber of awards: ";
 	in >> add_awards;

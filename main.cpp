@@ -122,6 +122,10 @@ int main()
 							{
 								cerr << "Insertion failed: Entered nothing" << endl;
 							}
+						/*	catch (const string msg)
+							{
+								cerr << "Insertion failed: Entered nothing" << endl;
+							}*/
 							break;
 						}
 						//display the entire list
