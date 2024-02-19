@@ -59,39 +59,41 @@ Animal::~Animal()
 istream & operator >> (istream & in, Animal & an2)
 {
 	if (an2.species)
+	{
 		delete [] an2.species;
+		an2.species = nullptr;
+	}
 	char temp[SIZE];
 	int add_age = 0;
-	do
-	{
+//	do
+//	{
 		cout << "\nWhat is the species: ";
-		try
-		{
-			cin.get(temp, SIZE, '\n');
-			cin.clear();
-			cin.ignore(100, '\n');
-			if (strlen(temp) == 0)
+	//	try
+	//	{
+			in.get(temp, SIZE, '\n');
+			in.clear();
+			in.ignore(100, '\n');
+			//if the user entered nothing
+			if (strlen(temp) == 0 || in.fail())
 				throw temp;
-		}
-		catch (const char * msg)
-		{
-			cerr << "Nothing entered, try again" << endl;
-		}
-	} while (strlen(temp) == 0);
+	//	}
+//	} while (strlen(temp) == 0);
 	an2.species = new char[strlen(temp) + 1];
 	strcpy(an2.species, temp);
 	cout << "\nWhat is the age: ";
-	cin >> add_age;
-	while (cin.fail())
+	in >> add_age;
+//	if (in.fail())
+//		throw add_age;
+	while (in.fail())
 	{
 		cerr << "Entered a character, enter an integer" << endl;
-		cin.clear();
-		cin.ignore(100, '\n');
+		in.clear();
+		in.ignore(100, '\n');
 		cout << "\nWhat is the age: ";
-		cin >> add_age;
+		in >> add_age;
 	}
-	cin.clear();
-	cin.ignore(100, '\n');
+	in.clear();
+	in.ignore(100, '\n');
 	an2.age = add_age;
 	return in;
 }
@@ -137,7 +139,7 @@ Pet::Pet()
 }
 
 //initialization list
-Pet::Pet(char * your_species, const int & an_age, const string & a_breed, const string & a_temp): Animal(your_species, an_age), breed(a_breed), temper(a_temp)
+Pet::Pet(char * your_species, const int & an_age, const string & a_breed, const vector<string> & a_temp): Animal(your_species, an_age), breed(a_breed), temper(a_temp)
 {
 }
 
@@ -158,23 +160,30 @@ istream & operator >> (istream & in, Pet & an2)
 	do
 	{
 		cout << "\nWhat's the breed: ";
-		getline(cin, add_breed);
+		getline(in, add_breed);
 		//check if the user entered anything
 		if (add_breed.empty())
 			cout << "Entered nothing, try again" << endl;
 	} while (add_breed.empty());
-	an2.breed = add_breed;
+//	an2.breed = add_breed;
+	an2.breed.clear();
+	an2.breed += add_breed;
 	//loop until the user enters something
 	do
 	{
 		cout << "\nAnimal's temperment: ";
-		getline(cin, add_temper);
+		getline(in, add_temper);
 		//check if the user enters anything
 		if (add_temper.empty())
 			cout << "Entered nothing, try again" << endl;
 	} while (add_temper.empty());
-//	temper.pushback(add_temper);
-	an2.temper = add_temper;
+	//in.clear();
+	//in.ignore(100, '\n');
+	an2.temper.clear();
+	an2.temper.push_back(add_temper);
+//	an2.temper = add_temper;
+//	an2.temper.clear();
+//	an2.temper += add_temper;
 	return in;
 }
 
@@ -185,22 +194,30 @@ ostream & operator << (ostream & out, const Pet & an2)
 	//kickstarts Animal's output operator
 	out << static_cast<const Animal &>(an2);
 	out << "\nBreed: " << an2.breed
-	<< "\nTemperment: " << an2.temper;
+	<< "\nTemperment: " << an2.temper[0];
 	return out;
 }
 
 //find a matching breed and temper return true if found
 bool Pet::operator == (const Pet & an2) const
 {
-	if (breed == an2.breed && temper == an2.temper)
+	if (breed == an2.breed && temper[0] == an2.temper[0])
 		return true;
 	return false;
 }
 
 //append a string
-string Pet::operator += (const Pet & an2)
+Pet & Pet::operator += (const Pet & an2)
 {
-	return temper += an2.temper + breed += an2.breed;
+//	temper += an2.temper;
+	breed += an2.breed;
+	return *this;
+}
+
+//add a temper from a vector
+string Pet::operator + (const Pet & an2)
+{
+	return breed + an2.breed;
 }
 
 //WORKING ANIMAL
@@ -255,42 +272,45 @@ istream & operator >> (istream & in, Work & an2)
 	//kickstarts the Animal's insert
 	in >> static_cast<Animal &>(an2);
 	if (an2.job)
+	{
 		delete [] an2.job;
+		an2.job = nullptr;
+	}
 	char temp[SIZE];
 	int add_period = 0;
-	do
-	{
+//	do
+//	{
 		cout << "\nWhat's the animal's job: ";
-		try
-		{
-			cin.get(temp, SIZE, '\n');
-			cin.clear();
-			cin.ignore(100, '\n');
+//		try
+//		{
+			in.get(temp, SIZE, '\n');
+			in.clear();
+			in.ignore(100, '\n');
 			//check if the user entered anything
 			if (strlen(temp) == 0)
 				throw temp;
-		}
+//		}
 		//only caught if the user entered nothing
-		catch (const char * msg)
-		{
-			cerr << "Nothing entered, try again" << endl;
-		}
-	} while (strlen(temp) == 0);
+//		catch (const char * msg)
+//		{
+//			cerr << "Nothing entered, try again" << endl;
+//		}
+//	} while (strlen(temp) == 0);
 	an2.job = new char[strlen(temp) + 1];
 	strcpy(an2.job, temp);
 	cout << "\nYears of experience: ";
-	cin >> add_period;
+	in >> add_period;
 	//loop through until the user enters an integer and not a char
-	while (cin.fail())
+	while (in.fail())
 	{
 		cerr << "Entered a character, enter an integer" << endl;
-		cin.clear();
-		cin.ignore(100, '\n');
+		in.clear();
+		in.ignore(100, '\n');
 		cout << "\nYears of experience: ";
-		cin >> add_period;
+		in >> add_period;
 	}
-	cin.clear();
-	cin.ignore(100, '\n');
+	in.clear();
+	in.ignore(100, '\n');
 	an2.period = add_period;
 	return in;
 }
@@ -343,25 +363,25 @@ istream & operator >> (istream & in, Competition & an2)
 	do
 	{
 		cout << "\nWhat competition: ";
-		getline(cin, add_comp);
+		getline(in, add_comp);
 		//check if the user entered anything
 		if (add_comp.empty())
 			cout << "Entered nothing, try again" << endl;
 	} while (add_comp.empty());
 	an2.comp = add_comp;
 	cout << "\nNumber of awards: ";
-	cin >> add_awards;
+	in >> add_awards;
 	//loop through until the user enters an integer and not a char
-	while (cin.fail())
+	while (in.fail())
 	{
 		cerr << "Entered a character, enter an integer" << endl;
-		cin.clear();
-		cin.ignore(100, '\n');
+		in.clear();
+		in.ignore(100, '\n');
 		cout << "\nNumber of awards: ";
-		cin >> add_awards;
+		in >> add_awards;
 	}
-	cin.clear();
-	cin.ignore(100, '\n');
+	in.clear();
+	in.ignore(100, '\n');
 	an2.awards = add_awards;
 	return in;
 }

@@ -45,17 +45,18 @@ class Pet: public Animal
 {
 	public:
 		Pet();												//default constructor
-		Pet(char * your_species, const int & an_age, const string & a_breed, const string & a_temp);	//initialization list
+		Pet(char * your_species, const int & an_age, const string & a_breed, const vector<string> & a_temp);	//initialization list
 		~Pet();												//destructor
 		friend istream & operator >> (istream & in, Pet & an2);		//input the breed and temper
 		friend ostream & operator << (ostream & out, const Pet & an2);	//display the breed and temper
 		bool operator == (const Pet & an2) const;				//find a matching breed and temper, return true if found
-		string operator += (const Pet & an2);				//append a string
+		Pet & operator += (const Pet & an2);				//append a string
+		string operator + (const Pet & an2);			//add a temper from a vector
 
 	private:
 		string breed;
-//		vector<string> temper;
-		string temper;
+		vector<string> temper;
+//		string temper;
 };
 
 class Work: public Animal

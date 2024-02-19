@@ -205,6 +205,7 @@ int DLL<T>::insert(node_ptr_type & head, const T & to_add)
 //	if (head->get_data() <= to_add && head->get_next()->get_data() > to_add)
 	if (head->get_data() <= to_add)
 	{
+		//if next is not null, compare it and add if true
 		if (head->get_next())
 		{
 			if (head->get_next()->get_data() > to_add)
@@ -253,8 +254,10 @@ int DLL<T>::remove(const T & find_animal)
 template <typename T>
 int DLL<T>::remove(node_ptr_type & head, const T & find_animal)
 {
+	//nullptr
 	if (!head)
 		return 0;
+	//if data matches, delete and return
 	if (head->find(find_animal))
 	{
 		node_ptr_type hold = head->get_next();

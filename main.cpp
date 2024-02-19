@@ -35,14 +35,26 @@ int main()
 				//loop until the user wants to stop
 				do
 				{
+					cout << "\n***PET***";
 					inner_option = animal_menu();
 					switch(inner_option)
 					{
 						//user chooses to add a pet into the list
 						case '1':
 						{
-							cin >> a_pet;
-							pet_list.insert(a_pet);
+							try
+							{
+								cin >> a_pet;
+								pet_list.insert(a_pet);
+							}
+							catch (const char * msg)
+							{
+								cerr << "Insertion failed: Entered nothing" << endl;
+							}
+							/*catch (int notint)
+							{
+								cerr << "Insertion failed: Added a character instead of number" << endl;
+							}*/
 							break;
 						}
 						//display the entire list
@@ -94,14 +106,22 @@ int main()
 				//loop until the user wants to stop
 				do
 				{
+					cout << "\n***WORKING ANIMAL***";
 					inner_option = animal_menu();
 					switch(inner_option)
 					{
 						//user chooses to add a working animal into the list
 						case '1':
 						{
-							cin >> working_an;
-							work_list.insert(working_an);
+							try
+							{
+								cin >> working_an;
+								work_list.insert(working_an);
+							}
+							catch (const char * empty)
+							{
+								cerr << "Insertion failed: Entered nothing" << endl;
+							}
 							break;
 						}
 						//display the entire list
@@ -153,14 +173,22 @@ int main()
 				//loop until the user wants to stop
 				do
 				{
+					cout << "\n***COMPETING ANIMAL***";
 					inner_option = animal_menu();
 					switch(inner_option)
 					{
 						//user chooses to add a competing animal into the list
 						case '1':
 						{
-							cin >> comp_an;
-							comp_list.insert(comp_an);
+							try
+							{
+								cin >> comp_an;
+								comp_list.insert(comp_an);
+							}
+							catch (const char * msg)
+							{
+								cerr << "Insertion failed: Entered nothing" << endl;
+							}
 							break;
 						}
 						//display the entire list
@@ -229,12 +257,11 @@ char menu()
 {
 	char option = 0;
 	cout << "\n*****ANIMAL STORAGE****"
-	"\nWhat type of animal:"
 	"\n\t1. Pet"
 	"\n\t2. Worker"
 	"\n\t3. Competition"
 	"\n\t4. Exit";
-	cout << "\nPick an option: ";
+	cout << "\nPick an option (1-4): ";
 	cin >> option;
 	cin.clear();
 	cin.ignore(100, '\n');
@@ -250,7 +277,7 @@ char animal_menu()
 	"\n\t3. Remove one"
 	"\n\t4. Remove all"
 	"\n\t5. Exit";
-	cout << "\nPick an option: ";
+	cout << "\nPick an option (1-5): ";
 	cin >> option;
 	cin.ignore(100, '\n');
 	return option;
