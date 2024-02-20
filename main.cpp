@@ -1,6 +1,6 @@
 //Molina Nhoung
 //CS302
-//2/9/24
+//2/19/24
 //
 //Program 2
 //This program will keep track of different animals and the roles that they can take, being a pet
@@ -51,10 +51,6 @@ int main()
 							{
 								cerr << "Insertion failed: Entered nothing" << endl;
 							}
-							/*catch (int notint)
-							{
-								cerr << "Insertion failed: Added a character instead of number" << endl;
-							}*/
 							break;
 						}
 						//display the entire list
@@ -122,10 +118,6 @@ int main()
 							{
 								cerr << "Insertion failed: Entered nothing" << endl;
 							}
-						/*	catch (const string msg)
-							{
-								cerr << "Insertion failed: Entered nothing" << endl;
-							}*/
 							break;
 						}
 						//display the entire list

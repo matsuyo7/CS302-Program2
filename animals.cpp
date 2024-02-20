@@ -1,6 +1,6 @@
 //Molina Nhoung
 //CS302
-//2/9/24
+//2/19/24
 //
 //Program 2
 //This file will implement the functions in the animal inheritence hierarchy. The
@@ -55,9 +55,10 @@ Animal::~Animal()
 	age = 0;
 }
 
-//input the species and the age
+//input the species and the age into the incoming class object
 istream & operator >> (istream & in, Animal & an2)
 {
+	//make sure there's nothing already in species
 	if (an2.species)
 	{
 		delete [] an2.species;
@@ -65,25 +66,18 @@ istream & operator >> (istream & in, Animal & an2)
 	}
 	char temp[SIZE];
 	int add_age = 0;
-//	do
-//	{
-		cout << "\nWhat is the species: ";
-	//	try
-	//	{
-			in.get(temp, SIZE, '\n');
-			in.clear();
-			in.ignore(100, '\n');
-			//if the user entered nothing
-			if (strlen(temp) == 0 || in.fail())
-				throw temp;
-	//	}
-//	} while (strlen(temp) == 0);
+	cout << "\nWhat is the species: ";
+	in.get(temp, SIZE, '\n');
+	in.clear();
+	in.ignore(100, '\n');
+	//if the user entered nothing
+	if (strlen(temp) == 0 || in.fail())
+		throw temp;
 	an2.species = new char[strlen(temp) + 1];
 	strcpy(an2.species, temp);
 	cout << "\nWhat is the age: ";
 	in >> add_age;
-//	if (in.fail())
-//		throw add_age;
+	//if user entered a non integer
 	while (in.fail())
 	{
 		cerr << "Entered a character, enter an integer" << endl;
@@ -138,7 +132,7 @@ Pet::Pet()
 {
 }
 
-//initialization list
+//initialization list and passes up species and age for Animal to handle
 Pet::Pet(char * your_species, const int & an_age, const string & a_breed, const vector<string> & a_temp): Animal(your_species, an_age), breed(a_breed), temper(a_temp)
 {
 }
@@ -148,10 +142,9 @@ Pet::~Pet()
 {
 }
 
-//input the species and the age
+//input the species and the age into incoming pet class object, returns the input
 istream & operator >> (istream & in, Pet & an2)
 {
-//	Animal::operator >> (an2);
 	//kickstarts Animal's insertion
 	in >> static_cast<Animal &>(an2);
 	string add_breed;
@@ -165,7 +158,6 @@ istream & operator >> (istream & in, Pet & an2)
 		if (add_breed.empty())
 			cout << "Entered nothing, try again" << endl;
 	} while (add_breed.empty());
-//	an2.breed = add_breed;
 	an2.breed.clear();
 	an2.breed += add_breed;
 	//loop until the user enters something
@@ -177,20 +169,14 @@ istream & operator >> (istream & in, Pet & an2)
 		if (add_temper.empty())
 			cout << "Entered nothing, try again" << endl;
 	} while (add_temper.empty());
-	//in.clear();
-	//in.ignore(100, '\n');
 	an2.temper.clear();
 	an2.temper.push_back(add_temper);
-//	an2.temper = add_temper;
-//	an2.temper.clear();
-//	an2.temper += add_temper;
 	return in;
 }
 
-//display the species and age
+//display the breed and temperment, kickstarts the base class's display and returns the output
 ostream & operator << (ostream & out, const Pet & an2)
 {
-//	Animal::operator<<(an2);
 	//kickstarts Animal's output operator
 	out << static_cast<const Animal &>(an2);
 	out << "\nBreed: " << an2.breed
@@ -201,20 +187,21 @@ ostream & operator << (ostream & out, const Pet & an2)
 //find a matching breed and temper return true if found
 bool Pet::operator == (const Pet & an2) const
 {
+	if (!Animal::operator==(an2))
+		return false;
 	if (breed == an2.breed && temper[0] == an2.temper[0])
 		return true;
 	return false;
 }
 
-//append a string
+//append a string, returns this object
 Pet & Pet::operator += (const Pet & an2)
 {
-//	temper += an2.temper;
 	breed += an2.breed;
 	return *this;
 }
 
-//add a temper from a vector
+//add a temper from a vector, return the resulting string
 string Pet::operator + (const Pet & an2)
 {
 	return breed + an2.breed;
@@ -227,7 +214,7 @@ Work::Work(): job(nullptr)
 	period = 0;
 }
 
-//initialization list
+//initialization list, sends species and age to Animal base class
 Work::Work(char * your_species, const int & an_age, int & a_period, char * a_job): Animal(your_species, an_age)
 {
 	job = new char[strlen(a_job) + 1];
@@ -266,7 +253,7 @@ Work::~Work()
 	period = 0;
 }
 
-//input the species and the age
+//input the job and years worked, kickstart the base class input, return the input
 istream & operator >> (istream & in, Work & an2)
 {
 	//kickstarts the Animal's insert
@@ -278,24 +265,13 @@ istream & operator >> (istream & in, Work & an2)
 	}
 	char temp[SIZE];
 	int add_period = 0;
-//	do
-//	{
-		cout << "\nWhat's the animal's job: ";
-//		try
-//		{
-			in.get(temp, SIZE, '\n');
-			in.clear();
-			in.ignore(100, '\n');
-			//check if the user entered anything
-			if (strlen(temp) == 0)
-				throw temp;
-//		}
-		//only caught if the user entered nothing
-//		catch (const char * msg)
-//		{
-//			cerr << "Nothing entered, try again" << endl;
-//		}
-//	} while (strlen(temp) == 0);
+	cout << "\nWhat's the animal's job: ";
+	in.get(temp, SIZE, '\n');
+	in.clear();
+	in.ignore(100, '\n');
+	//check if the user entered anything, throw if empty
+	if (strlen(temp) == 0)
+		throw temp;
 	an2.job = new char[strlen(temp) + 1];
 	strcpy(an2.job, temp);
 	cout << "\nYears of experience: ";
@@ -315,7 +291,7 @@ istream & operator >> (istream & in, Work & an2)
 	return in;
 }
 
-//display the species and age
+//display the job and years of experience, kickstarts the base class's display
 ostream & operator << (ostream & out, const Work & an2)
 {
 	//kickstarts Animal's output operator
@@ -328,6 +304,8 @@ ostream & operator << (ostream & out, const Work & an2)
 //find a matching years worked and job title, return true if found
 bool Work::operator == (const Work & an2) const
 {
+	if (!Animal::operator==(an2))
+		return false;
 	if (strcmp(job, an2.job) == 0 && period == an2.period)
 		return true;
 	return false;
@@ -352,23 +330,18 @@ Competition::~Competition()
 	awards = 0;
 }
 
-//input the type of competition and number of awards
+//input the type of competition and number of awards, kickstarts base class's input, returns the input
 istream & operator >> (istream & in, Competition & an2)
 {
 	//kickstarts Animal's insertion
 	in >> static_cast<Animal &>(an2);
 	string add_comp;
 	int add_awards = 0;
-	//loop until the user enters something
-//	do
-//	{
-		cout << "\nWhat competition: ";
-		getline(in, add_comp);
-		//check if the user entered anything
-		if (add_comp.empty())
-			throw "Cannot be empty";
-//			cout << "Entered nothing, try again" << endl;
-//	} while (add_comp.empty());
+	cout << "\nWhat competition: ";
+	getline(in, add_comp);
+	//check if the user entered anything, throw if empty
+	if (add_comp.empty())
+		throw "Cannot be empty";
 	an2.comp = add_comp;
 	cout << "\nNumber of awards: ";
 	in >> add_awards;
@@ -387,7 +360,7 @@ istream & operator >> (istream & in, Competition & an2)
 	return in;
 }
 
-//display the competition and awards
+//display the competition and awards, kickstarts the base class Animal's display
 ostream & operator << (ostream & out, const Competition & an2)
 {
 	//kickstarts Animal's output operator
@@ -400,6 +373,8 @@ ostream & operator << (ostream & out, const Competition & an2)
 //find a matching comp and awards, return true if found
 bool Competition::operator == (const Competition & an2) const
 {
+	if (!Animal::operator==(an2))
+		return false;
 	if (comp == an2.comp && awards == an2.awards)
 		return true;
 	return false;

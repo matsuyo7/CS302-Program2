@@ -1,6 +1,6 @@
 //Molina Nhoung
 //CS302
-//2/7/24
+//2/19/24
 //
 //Program 2
 //This file will be the skeleton class for the node to store the animals data
@@ -16,7 +16,6 @@ template <typename T>
 class node
 {
 	public:
-	//	typedef unique_ptr <myTYPE> node_ptr_type;	//pointer type
 		typedef node<T> * node_ptr_type;		//pointer type
 		node();						//default constructor
 		node(const T & new_animal);			//initialization list
@@ -24,10 +23,9 @@ class node
 		~node();					//destructor
 		T get_data() const;				//get the data to compare
 		node_ptr_type & set_prev(node<T> * new_prev);	//set the previous pointer
-		node_ptr_type & set_next(node<T> * new_next);			//set the next pointer
+		node_ptr_type & set_next(node<T> * new_next);	//set the next pointer
 		node_ptr_type & get_prev();			//get the previous pointer
 		node_ptr_type & get_next();			//get the next pointer
-//		bool less_than_or_equal(const T & new_data);	//compare if the current data is less than new data
 		bool find(const T & to_find);			//return true if the data is the same
 		int display() const;				//display whats stored in the node
 
@@ -43,7 +41,6 @@ class DLL
 {
 	public:
 		typedef node<T> * node_ptr_type;		//pointer type
-	//	typedef node_type * node_ptr;
 		DLL();						//default constructor
 		DLL(const DLL<T> & src);			//copy constructor
 		DLL<T> & operator=(const DLL<T> & src);		//assignment operator

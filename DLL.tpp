@@ -1,6 +1,6 @@
 //Molina Nhoung
 //CS302
-//2/9/24
+//2/19/24
 //
 //Program 2
 //This file will implement the DLL functions from the DLL header file. It will keep track of one
@@ -35,13 +35,13 @@ node<T>::~node()
 {
 }
 
-//get the data to compare
+//returns the data
 template <typename T>
 T node<T>::get_data() const
 {
 	return data;
 }
-//set the previous pointer
+//set the previous pointer, returns previous pointer
 template <typename T>
 typename node<T>::node_ptr_type & node<T>::set_prev(node<T> * new_prev)
 {
@@ -49,7 +49,7 @@ typename node<T>::node_ptr_type & node<T>::set_prev(node<T> * new_prev)
 	return previous;
 }
 
-//set the next pointer
+//set the next pointer, returns next pointer
 template <typename T>
 typename node<T>::node_ptr_type & node<T>::set_next(node<T> * new_next)
 {
@@ -70,15 +70,6 @@ typename node<T>::node_ptr_type & node<T>::get_next()
 {
 	return next;
 }
-
-/*
-//compare if the current data is less than new data
-template <typename T>
-bool node<T>::less_than_or_equal(const T & new_data)
-{
-	return data <= new_data;
-}
-*/
 
 //return true if the data is the same
 template <typename T>
@@ -111,6 +102,7 @@ DLL<T>::DLL(): head(nullptr), tail(nullptr)
 template <typename T>
 DLL<T>::DLL(const DLL<T> & src)
 {
+	//if list is empty, set head and tail to nullptr
 	if (!src.head)
 	{
 		head = nullptr;
@@ -122,10 +114,10 @@ DLL<T>::DLL(const DLL<T> & src)
 template <typename T>
 int DLL<T>::copy(node_ptr_type & head, node_ptr_type & tail, const node_ptr_type & src)
 {
-	//hit nullptr
+	//hit nullptr, set next to nullptr
 	if (!src)
 	{
-		head = nullptr;
+		head->set_next(nullptr);
 		return 0;
 	}
 	//if theres only one item in the list
@@ -163,7 +155,7 @@ DLL<T>::~DLL()
 	remove_all();
 }
 
-//insert an animal
+//insert an animal into the node
 template <typename T>
 int DLL<T>::insert(const T & new_animal)
 {
@@ -201,15 +193,15 @@ int DLL<T>::insert(node_ptr_type & head, const T & to_add)
 		return 0;
 	}
 	//if current age is less than the new age
-//	if (head->less_than_or_equal(to_add))
-//	if (head->get_data() <= to_add && head->get_next()->get_data() > to_add)
 	if (head->get_data() <= to_add)
 	{
 		//if next is not null, compare it and add if true
 		if (head->get_next())
-		{
+		{	
+			//if data to be added is greater than next data
 			if (head->get_next()->get_data() > to_add)
 			{
+				//add in between the current and next node
 				node_ptr_type hold = new node(to_add);
 				hold->set_next(head->get_next());
 				if (head->get_next())
@@ -226,7 +218,7 @@ int DLL<T>::insert(node_ptr_type & head, const T & to_add)
 	return insert(head->get_next(), to_add);
 }
 
-//display the animal hierarchy
+//display the animal
 template <typename T>
 int DLL<T>::display() const
 {
@@ -283,12 +275,12 @@ int DLL<T>::remove_all()
 template <typename T>
 int DLL<T>::remove_all(node_ptr_type & head)
 {
+	//hit nullptr, set tail to null
 	if (!head)
 	{
 		this->tail = nullptr;
 		return 0;
 	}
-//	node hold = head->get_next();
 	node_ptr_type hold = head->get_next();
 	delete head;
 	head = hold;
